@@ -160,10 +160,15 @@ numbers
             symbols
             |> List.choose (fun symbol ->
                 match symbol, number with
-                | PartNumber -> Some number.Number
+                | PartNumber -> Some(symbol, number.Number)
                 | NotPartNumber -> None)
 
         partNumbers @ newPartNumbers)
     []
+|> List.groupBy fst
+|> List.choose (fun (symbol, numbers) ->
+    match symbol, List.map snd numbers with
+    | s, partNumbers when s.Symbol = '*' && partNumbers.Length = 2 -> partNumbers |> List.fold (*) 1u |> Some
+    | _ -> None)
 |> List.fold (+) 0u
-|> printfn "%i"
+|> printfn "%A"

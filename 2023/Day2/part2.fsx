@@ -55,7 +55,7 @@ let getMaxCubeQty (cubes: ColoredCube[]) =
     |> Array.fold
         (fun results cube ->
             match cube with
-            | Red num -> 
+            | Red num ->
                 match results.Red < num with
                 | true -> { results with Red = num }
                 | false -> results
@@ -78,18 +78,14 @@ let getHandfullsFromText (handDelimiter: char) (cubeDelimiter: char) (text: stri
     |> Array.collect (fun line -> getCubesFromHandfullText cubeDelimiter line)
 
 // Game 1: 1 red, 1 green, 1 blue; 2 red, 1 green, 1 blue; 1 red, 2 green, 1 blue; 1 red, 1 green, 2 blue
-let tryGetCubePowerFromText
-    (gameDelimiter: char)
-    (handDelimiter: char)
-    (cubeDelimiter: char)
-    =
+let tryGetCubePowerFromText (gameDelimiter: char) (handDelimiter: char) (cubeDelimiter: char) =
     function
     | SplitBy [| gameDelimiter |] (gameKey :: gameHandfulls) when gameHandfulls.Length = 1 ->
         let maxGameResult =
             getHandfullsFromText handDelimiter cubeDelimiter gameHandfulls.Head
             |> getMaxCubeQty
 
-        Some (gameKey, maxGameResult |> GameResult.getCubePower)
+        Some(gameKey, maxGameResult |> GameResult.getCubePower)
     | _ -> None
 
 // Game 1: 1 red, 1 green, 1 blue; 2 red, 1 green, 1 blue; 1 red, 2 green, 1 blue; 1 red, 1 green, 2 blue

@@ -78,16 +78,15 @@ let tryGetGameResultsFromText
     =
     function
     | SplitBy [| gameDelimiter |] (gameKey :: gameHandfulls) when gameHandfulls.Length = 1 ->
-        let filter gameResult = 
+        let filter gameResult =
             gameResult.Red <= gameResultFilter.Red
             && gameResult.Green <= gameResultFilter.Green
             && gameResult.Blue <= gameResultFilter.Blue
 
-        let cubes =
-            getHandfullsFromText handDelimiter cubeDelimiter gameHandfulls.Head
+        let cubes = getHandfullsFromText handDelimiter cubeDelimiter gameHandfulls.Head
 
         match cubes |> Array.forall filter with
-        | true -> Some (gameKey, cubes)
+        | true -> Some(gameKey, cubes)
         | false -> None
     | _ -> None
 
@@ -100,7 +99,7 @@ File.ReadAllText("data.txt").Split("\n")
 |> getValidGames { Red = 12; Green = 13; Blue = 14 }
 |> Array.choose (fun (game, _) ->
     match game with
-    | ParseRegex @"Game\s*([\d]*)" [ number ] -> 
+    | ParseRegex @"Game\s*([\d]*)" [ number ] ->
         printfn "Game: %s" number
         Some(int number)
     | _ -> None)
