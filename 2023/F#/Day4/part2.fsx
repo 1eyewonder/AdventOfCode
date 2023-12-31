@@ -2,9 +2,7 @@ open System
 open System.IO
 
 let (|SplitBy|_|) (x: char) (text: string) =
-    text.Split(x, StringSplitOptions.RemoveEmptyEntries)
-    |> Array.toList
-    |> Some
+    text.Split(x, StringSplitOptions.RemoveEmptyEntries) |> Array.toList |> Some
 
 let intersect a b =
     Set.intersect (Set.ofList a) (Set.ofList b) |> Set.toList
@@ -32,8 +30,8 @@ let allCards =
     )
     |> Array.indexed
 
-(Map.ofList [ for i in 0 .. allCards.Length - 1 -> i, 1], allCards)
-||> Array.fold (fun map (index, winningCards) -> 
+(Map.ofList [ for i in 0 .. allCards.Length - 1 -> i, 1 ], allCards)
+||> Array.fold (fun map (index, winningCards) ->
     let count = map[index]
 
     match winningCards with
@@ -46,9 +44,7 @@ let allCards =
                 | Some v -> Map.add k (v + count) m
                 | None -> Map.add k count m)
 
-        newCards
-)
+        newCards)
 |> Map.values
 |> Seq.sum
 |> printfn "%A"
- 

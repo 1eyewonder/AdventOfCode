@@ -2,9 +2,7 @@ open System
 open System.IO
 
 let (|SplitBy|_|) (x: char) (text: string) =
-    text.Split(x, StringSplitOptions.RemoveEmptyEntries)
-    |> Array.toList
-    |> Some
+    text.Split(x, StringSplitOptions.RemoveEmptyEntries) |> Array.toList |> Some
 
 let intersect a b =
     Set.intersect (Set.ofList a) (Set.ofList b) |> Set.toList
