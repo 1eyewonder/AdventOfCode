@@ -10,12 +10,12 @@ let (|SplitBy|_|) (x: string) (text: string) =
 let determineWinningMethods (availableTime, requiredDistance) =
     let startingSpeed = 0<mm / ms>
     let requiredDistance = LanguagePrimitives.Int32WithMeasure<mm> requiredDistance
-    
-    let calculateBoatSpeed (rampUpTime: int<ms>) = rampUpTime/1<ms> * 1<mm / ms>
+
+    let calculateBoatSpeed (rampUpTime: int<ms>) = rampUpTime / 1<ms> * 1<mm / ms>
     let getTravelTime raceTime rampUpTime = raceTime - rampUpTime
 
-    [ 0 .. availableTime ]
-    |> List.choose (fun rampUpTime ->       
+    [ 0..availableTime ]
+    |> List.choose (fun rampUpTime ->
         let rampUpTime = LanguagePrimitives.Int32WithMeasure<ms> rampUpTime
         let availableTime = LanguagePrimitives.Int32WithMeasure<ms> availableTime
         let boatSpeed = (calculateBoatSpeed rampUpTime) + startingSpeed
@@ -23,9 +23,8 @@ let determineWinningMethods (availableTime, requiredDistance) =
         let distance = boatSpeed * travelTime
 
         match distance >= requiredDistance with
-        true -> Some(rampUpTime, distance)
-        | _ -> None
-    )
+        | true -> Some(rampUpTime, distance)
+        | _ -> None)
 
 let data = File.ReadAllLines("data.txt")
 
@@ -43,7 +42,7 @@ let raceStats =
     match times.Length, distances.Length with
     | x, y when x = y ->
         List.zip times distances
-        |> List.map (fun (time, distance) -> int time , int distance)
+        |> List.map (fun (time, distance) -> int time, int distance)
     | _ -> failwith "Invalid input"
 
 raceStats

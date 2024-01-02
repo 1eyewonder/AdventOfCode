@@ -50,16 +50,16 @@ let adjacentcolumn (symbol: Symbol) (number: Number) =
     number.Columns
     |> List.exists (fun column -> column = symbol.Column + 1 || column = symbol.Column - 1)
 
-let horizontallyAdjacent (symbol: Symbol) (number: Number) =
+let horizontallyAdjacent symbol number =
     sameRow symbol number && adjacentcolumn symbol number
 
-let verticallyAdjacent (symbol: Symbol) (number: Number) =
+let verticallyAdjacent symbol number =
     sameColumn symbol number && adjacentRow symbol number
 
-let diagonallyAdjacent (symbol: Symbol) (number: Number) =
+let diagonallyAdjacent symbol number =
     adjacentRow symbol number && adjacentcolumn symbol number
 
-let (|PartNumber|NotPartNumber|) (symbol: Symbol, number: Number) =
+let (|PartNumber|NotPartNumber|) (symbol, number) =
     if
         horizontallyAdjacent symbol number
         || verticallyAdjacent symbol number

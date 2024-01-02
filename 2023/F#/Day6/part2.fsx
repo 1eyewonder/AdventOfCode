@@ -10,12 +10,12 @@ let (|SplitBy|_|) (x: string) (text: string) =
 let determineWinningMethods availableTime requiredDistance =
     let startingSpeed = 0L<mm / ms>
     let requiredDistance = LanguagePrimitives.Int64WithMeasure<mm> requiredDistance
-    
-    let calculateBoatSpeed (rampUpTime: int64<ms>) = rampUpTime/1L<ms> * 1L<mm / ms>
+
+    let calculateBoatSpeed (rampUpTime: int64<ms>) = rampUpTime / 1L<ms> * 1L<mm / ms>
     let getTravelTime raceTime rampUpTime = raceTime - rampUpTime
 
     [| 0L .. availableTime |]
-    |> Array.Parallel.choose (fun rampUpTime ->       
+    |> Array.Parallel.choose (fun rampUpTime ->
         let rampUpTime = LanguagePrimitives.Int64WithMeasure<ms> rampUpTime
         let availableTime = LanguagePrimitives.Int64WithMeasure<ms> availableTime
         let boatSpeed = (calculateBoatSpeed rampUpTime) + startingSpeed
@@ -23,9 +23,8 @@ let determineWinningMethods availableTime requiredDistance =
         let distance = boatSpeed * travelTime
 
         match distance >= requiredDistance with
-        true -> Some(rampUpTime, distance)
-        | _ -> None
-    )
+        | true -> Some(rampUpTime, distance)
+        | _ -> None)
 
 let data = File.ReadAllLines("data.txt")
 
